@@ -152,7 +152,7 @@
         return uint64_t(r);
     }
     __forceinline uint32_t das_popcount(uint32_t x) {
-        return uint32_t(__popcnt(x));
+        return uint32_t(das_soft_popcnt(x));
     }
     __forceinline uint64_t das_popcount64(uint64_t x) {
     #if defined(__i386__) || defined(_M_IX86)
@@ -163,7 +163,7 @@
         }
         return count;
     #else
-        return uint64_t(__popcnt64(x));
+        return uint64_t(das_soft_popcnt64(x));
     #endif
     }
 #else
