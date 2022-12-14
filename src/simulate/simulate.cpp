@@ -1586,6 +1586,8 @@ namespace das
         }
     }
 
+    bool multiline_log = true;
+
     const char * getLogMarker(int level)
     {
         if ( level >= LogLevel::error )
@@ -1605,9 +1607,9 @@ namespace das
         });
         if ( !any ) {
             if ( level>=LogLevel::warning ) {
-                das_to_stderr("%s%s", prefix, text);
+                das_to_stderr(multiline_log ? "%s%s\n" : "%s%s", prefix, text);
             } else {
-                das_to_stdout("%s%s", prefix, text);
+                das_to_stdout(multiline_log ? "%s%s\n" : "%s%s", prefix, text);
             }
         }
     }
@@ -1772,9 +1774,7 @@ namespace das
             breakPoint(at, "exception", message);
         }
 #endif
-#if !defined(_MSC_VER) || (_MSC_VER>1900)
-        exit(0);
-#endif
+        os_debug_break();
     }
 
     void Context::rethrow () {
@@ -1800,9 +1800,7 @@ namespace das
             os_debug_break();
         }
 #endif
-#if !defined(_MSC_VER) || (_MSC_VER>1900)
-        exit(0);
-#endif
+        os_debug_break();
     }
 
 #ifdef _MSC_VER

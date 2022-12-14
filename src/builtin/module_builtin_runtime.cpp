@@ -501,13 +501,18 @@ namespace das
         return (int32_t) context->stringHeap->depth();
     }
 
+
+    extern bool multiline_log;
+
     void string_heap_collect ( bool validate, Context * context, LineInfoArg * info ) {
         context->collectStringHeap(info,validate);
     }
 
     void string_heap_report ( Context * context, LineInfoArg * info ) {
+        multiline_log = false;
         context->stringHeap->report();
         context->reportAnyHeap(info, true, false, false, false);
+        multiline_log = true;
     }
 
     void heap_collect ( bool sheap, bool validate, Context * context, LineInfoArg * info ) {
@@ -515,16 +520,20 @@ namespace das
     }
 
     void heap_report ( Context * context, LineInfoArg * info ) {
+        multiline_log = false;
         context->heap->report();
         context->reportAnyHeap(info, false, true, true, false);
+        multiline_log = true;
     }
 
     void memory_report ( bool errOnly, Context * context, LineInfoArg * info ) {
+        multiline_log = false;
         /*
         context->stringHeap->report();
         context->heap->report();
         */
         context->reportAnyHeap(info,true,true,false,errOnly);
+        multiline_log = true;
     }
 
     void builtin_table_lock ( const Table & arr, Context * context ) {
